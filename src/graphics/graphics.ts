@@ -12,16 +12,13 @@ export interface Graphics {
     gpu_meshes: GpuMesh[];
     gpu_camera: GpuCamera;
     camera_bind_group: GPUBindGroup;
-
-    add_mesh: (mesh: Mesh) => void;
-    render: () => void;
 }
 
 export async function init_graphics(): Promise<Graphics> {
     const device = await get_device();
-    const canvas_context = await get_canvas_context(device);
-    const render_pipeline = await create_render_pipeline(device);
-    const gpu_camera = await create_gpu_camera(device, create_camera());
+    const canvas_context = get_canvas_context(device);
+    const render_pipeline = create_render_pipeline(device);
+    const gpu_camera = create_gpu_camera(device, create_camera());
     const camera_bind_group = create_camera_bind_group(
         device,
         render_pipeline,
@@ -29,15 +26,12 @@ export async function init_graphics(): Promise<Graphics> {
     );
 
     return {
-        camera_bind_group,
-        canvas_context,
         device,
+        canvas_context,
         render_pipeline,
         gpu_meshes: [],
         gpu_camera,
-
-        add_mesh,
-        render,
+        camera_bind_group,
     };
 }
 
@@ -150,34 +144,34 @@ function create_render_pipeline(device: GPUDevice): GPURenderPipeline {
     return device.createRenderPipeline(pipelineDescriptor);
 }
 
-export function add_mesh(this: Graphics, mesh: Mesh): void {
-    this.gpu_meshes.push(create_gpu_mesh(this.device, mesh));
+export function graphics_add_mesh(graphics: Graphics, mesh: Mesh): void {
+    graphics.gpu_meshes.push(create_gpu_mesh(graphics.device, mesh));
 }
 
-export function render(this: Graphics): void {
-    const commandEncoder = this.device.createCommandEncoder();
-    const renderPassDescriptor: GPURenderPassDescriptor = {
+export function graphics_render(graphics: Graphics): void {
+    const command_encoder = graphics.device.createCommandEncoder();
+    const render_pass_descriptor: GPURenderPassDescriptor = {
         colorAttachments: [
             {
                 clearValue: { r: 0, g: 0, b: 0, a: 1 },
                 loadOp: "clear",
                 storeOp: "store",
-                view: this.canvas_context
+                view: graphics.canvas_context
                     .getCurrentTexture()
                     .createView(),
             },
         ],
     };
 
-    const passEncoder = commandEncoder.beginRenderPass(renderPassDescriptor);
-    passEncoder.setPipeline(this.render_pipeline);
+    const passEncoder = command_encoder.beginRenderPass(render_pass_descriptor);
+    passEncoder.setPipeline(graphics.render_pipeline);
 
-    passEncoder.setBindGroup(0, this.camera_bind_group);
-    for (const gpuMesh of this.gpu_meshes) {
-        passEncoder.setVertexBuffer(0, gpuMesh.vertexBuffer);
-        passEncoder.draw(gpuMesh.mesh.vertices.length);
+    passEncoder.setBindGroup(0, graphics.camera_bind_group);
+    for (const gpu_mesh of graphics.gpu_meshes) {
+        passEncoder.setVertexBuffer(0, gpu_mesh.vertexBuffer);
+        passEncoder.draw(gpu_mesh.mesh.vertices.length);
     }
 
     passEncoder.end();
-    this.device.queue.submit([commandEncoder.finish()]);
+    graphics.device.queue.submit([command_encoder.finish()]);
 }

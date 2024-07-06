@@ -1,31 +1,24 @@
-import { Graphics, init_graphics } from "./graphics/graphics";
+import { Graphics, graphics_add_mesh, graphics_render, init_graphics } from "./graphics/graphics";
 import { Mesh } from "./data/mesh";
 
 interface Engine {
     graphics: Graphics;
     meshes: Mesh[];
-
-    add_mesh: (mesh: Mesh) => void;
-    run: () => void;
 }
 
 export async function create_engine(): Promise<Engine> {
-    const graphics = await init_graphics();
-
     return {
-        graphics,
+        graphics: await init_graphics(),
         meshes: [],
-        add_mesh,
-        run,
     };
 }
 
-export function add_mesh(this: Engine, mesh: Mesh): void {
-    this.meshes.push(mesh);
-    this.graphics.add_mesh(mesh);
+export function engine_add_mesh(engine: Engine, mesh: Mesh): void {
+    engine.meshes.push(mesh);
+    graphics_add_mesh(engine.graphics, mesh);
 }
 
-export function run(this: Engine): void {
-    this.graphics.render();
-    window.requestAnimationFrame(() => run.bind(this));
+export function engine_run(engine: Engine): void {
+    graphics_render(engine.graphics);
+    window.requestAnimationFrame(() => engine_run(engine));
 }
