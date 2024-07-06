@@ -49,7 +49,6 @@ export default tseslint.config(
             "prefer-rest-params": "error",
             "prefer-spread": "error",
             "prefer-template": "error",
-            "require-await": "error",
             "sort-imports": "error",
         },
     },

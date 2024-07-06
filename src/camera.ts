@@ -1,4 +1,6 @@
-import { Vec4 } from "./data/vec4";
+import { VEC4_DATA_SIZE, Vec4 } from "./math/vec4";
+
+export const CAMERA_DATA_SIZE = VEC4_DATA_SIZE * 2;
 
 export interface Camera {
     position: Vec4;
@@ -7,7 +9,11 @@ export interface Camera {
 
 export function create_camera(): Camera {
     return {
-        position: [0, 0, 0, 1],
+        position: [0, 0, 0, 0],
         rotation: [0, 0, 0, 0],
     };
+}
+
+export function camera_data(camera: Camera): Float32Array {
+    return new Float32Array([...camera.position, ...camera.rotation].flat());
 }

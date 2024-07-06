@@ -1,4 +1,4 @@
-import { VERTEX_SIZE, Vertex } from "./vertex";
+import { VERTEX_DATA_SIZE, Vertex } from "./vertex";
 
 export interface Mesh {
     vertices: Vertex[];
@@ -9,7 +9,7 @@ export function create_mesh(vertices: Vertex[]): Mesh {
 }
 
 export function mesh_vertex_data_size(mesh: Mesh): number {
-    return mesh.vertices.length * VERTEX_SIZE;
+    return mesh.vertices.length * VERTEX_DATA_SIZE;
 }
 
 export function mesh_vertex_data(mesh: Mesh): Float32Array {

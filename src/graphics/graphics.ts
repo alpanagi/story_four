@@ -1,7 +1,7 @@
-import { GpuCamera, create_gpu_camera } from "./gpu_camera";
+import { Camera, create_camera } from "../camera";
+import { GpuCamera, create_gpu_camera, gpu_camera_update } from "./gpu_camera";
 import { GpuMesh, create_gpu_mesh } from "./gpu_mesh";
 import { Mesh } from "../data/mesh";
-import { create_camera } from "../camera";
 // @ts-expect-error: esbuild will import this as text
 import shader from "../shader.wgsl";
 
@@ -148,7 +148,9 @@ export function graphics_add_mesh(graphics: Graphics, mesh: Mesh): void {
     graphics.gpu_meshes.push(create_gpu_mesh(graphics.device, mesh));
 }
 
-export function graphics_render(graphics: Graphics): void {
+export function graphics_render(graphics: Graphics, camera: Camera): void {
+    gpu_camera_update(graphics.device, graphics.gpu_camera, camera);
+
     const command_encoder = graphics.device.createCommandEncoder();
     const render_pass_descriptor: GPURenderPassDescriptor = {
         colorAttachments: [
