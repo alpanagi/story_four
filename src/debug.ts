@@ -5,7 +5,7 @@ type RenderFn = (engine: Engine, camera: Camera) => Promise<void>;
 
 export const fps = (render: RenderFn): RenderFn => {
     let last_log_time = Date.now();
-    const frame_times = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    const frame_times = [0];
 
     return async (engine, camera) => {
         const frame_start_time = Date.now();
@@ -15,7 +15,7 @@ export const fps = (render: RenderFn): RenderFn => {
 
         const frame_end_time = Date.now();
         frame_times.push(frame_end_time - frame_start_time);
-        if (frame_times.length > 100) {
+        if (frame_times.length > 120) {
             frame_times.shift();
         }
 

@@ -23,8 +23,6 @@ export function engine_add_mesh(engine: Engine, mesh: Mesh): void {
 }
 
 async function _engine_run(engine: Engine, camera: Camera): Promise<void> {
-    camera.position[1] += 0.1;
-
     graphics_render(engine.graphics, camera);
     window.requestAnimationFrame(() => engine_run(engine, camera));
 }
