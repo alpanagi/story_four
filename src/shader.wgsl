@@ -1,6 +1,6 @@
-const PROJECTION_WIDTH: f32 = 16;
-const PROJECTION_HEIGHT: f32 = 9;
-const PROJECTION_FAR: f32 = 16;
+const PROJECTION_WIDTH: f32 = 32;
+const PROJECTION_HEIGHT: f32 = 18;
+const PROJECTION_FAR: f32 = 1000;
 
 struct VertexOut {
   @builtin(position) position : vec4f,
@@ -10,11 +10,11 @@ struct VertexOut {
 
 @vertex
 fn vertex_main(@location(0) position: vec4f) -> VertexOut {
-  var scale_matrix: mat4x4<f32>;
-  scale_matrix[0][0] = 1 / PROJECTION_WIDTH;
-  scale_matrix[1][1] = 1 / PROJECTION_HEIGHT;
-  scale_matrix[2][2] = 1 / PROJECTION_FAR;
-  scale_matrix[3][3] = 1;
+  var projection: mat4x4<f32>;
+  projection[0][0] = 2 / PROJECTION_WIDTH;
+  projection[1][1] = 2 / PROJECTION_HEIGHT;
+  projection[2][2] = -2 / PROJECTION_FAR;
+  projection[3][3] = 1;
 
   var x_rotation_matrix: mat4x4<f32>;
   x_rotation_matrix[0][0] = 1;
@@ -41,9 +41,8 @@ fn vertex_main(@location(0) position: vec4f) -> VertexOut {
   translation_matrix[3][1] = -camera[0][1];
   translation_matrix[3][2] = -camera[0][2];
 
-
   var output : VertexOut;
-  output.position = vec4(0, 0., 0.5, 0.) + x_rotation_matrix * y_rotation_matrix * scale_matrix * position;
+  output.position = vec4(0, 0., 0.5, 0.) + projection * x_rotation_matrix * y_rotation_matrix * translation_matrix * position;
   return output;
 }
 

@@ -22,7 +22,7 @@ export const fps = (render: RenderFn): RenderFn => {
         if (frame_end_time - last_log_time > 1000) {
             last_log_time = frame_end_time;
             console.log(
-                `AVERAGE_FPS: ${frame_times.reduce((acc, x) => acc + x) / frame_times.length}`);
+                `AVERAGE_FRAME_TIME: ${frame_times.reduce((acc, x) => acc + x) / frame_times.length}`);
         }
     };
 };
