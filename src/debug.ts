@@ -10,7 +10,7 @@ export const fps = (render: RenderFn): RenderFn => {
     return async (engine, camera) => {
         const frame_start_time = Date.now();
 
-        render(engine, camera);
+        await render(engine, camera);
         await engine.graphics.device.queue.onSubmittedWorkDone();
 
         const frame_end_time = Date.now();

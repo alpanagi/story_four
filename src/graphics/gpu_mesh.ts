@@ -1,4 +1,4 @@
-import { Mesh, mesh_vertex_data, mesh_vertex_data_size } from "../data/mesh";
+import { Mesh } from "../data/mesh";
 
 export interface GpuMesh {
     mesh: Mesh;
@@ -9,11 +9,11 @@ export function create_gpu_mesh(
     device: GPUDevice,
     mesh: Mesh,
 ): GpuMesh {
+    const data = mesh.data;
     const vertexBuffer = device.createBuffer({
-        size: mesh_vertex_data_size(mesh),
+        size: data.length * 4,
         usage: GPUBufferUsage.VERTEX | GPUBufferUsage.COPY_DST,
     });
-    const data = mesh_vertex_data(mesh);
     device.queue.writeBuffer(vertexBuffer, 0, data, 0, data.length);
 
     return {

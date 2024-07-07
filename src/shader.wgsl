@@ -1,5 +1,5 @@
-const PROJECTION_WIDTH: f32 = 32;
-const PROJECTION_HEIGHT: f32 = 18;
+const PROJECTION_WIDTH: f32 = 16;
+const PROJECTION_HEIGHT: f32 = 9;
 const PROJECTION_FAR: f32 = 1000;
 
 struct VertexOut {

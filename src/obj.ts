@@ -1,4 +1,4 @@
-import { Mesh, create_mesh } from "./data/mesh";
+import { Mesh } from "./data/mesh";
 import { Vec4 } from "./math/vec4";
 import { Vertex } from "./data/vertex";
 
@@ -39,5 +39,5 @@ export async function load_obj(filename: string): Promise<Mesh> {
             position: positions[x - 1] ?? [0, 0, 0, 1],
         }));
     });
-    return create_mesh(vertices);
+    return new Mesh(vertices);
 }
