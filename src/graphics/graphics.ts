@@ -12,9 +12,10 @@ export interface Graphics {
     gpu_meshes: GpuMesh[];
     gpu_camera: GpuCamera;
     camera_bind_group: GPUBindGroup;
+    texture_atlas_bind_group: GPUBindGroup;
 }
 
-export async function init_graphics(): Promise<Graphics> {
+export async function init_graphics(texture_atlas: ImageBitmap): Promise<Graphics> {
     const device = await get_device();
     const canvas_context = get_canvas_context(device);
     const render_pipeline = create_render_pipeline(device);
@@ -24,6 +25,11 @@ export async function init_graphics(): Promise<Graphics> {
         render_pipeline,
         gpu_camera,
     );
+    const texture_atlas_bind_group = create_texture_atlas_bind_group(
+        device,
+        render_pipeline,
+        texture_atlas,
+    );
 
     return {
         device,
@@ -32,6 +38,7 @@ export async function init_graphics(): Promise<Graphics> {
         gpu_meshes: [],
         gpu_camera,
         camera_bind_group,
+        texture_atlas_bind_group,
     };
 }
 
@@ -87,6 +94,37 @@ function create_camera_bind_group(
     });
 }
 
+function create_texture_atlas_bind_group(
+    device: GPUDevice,
+    pipeline: GPURenderPipeline,
+    texture_atlas: ImageBitmap,
+): GPUBindGroup {
+    const texture = device.createTexture({
+        size: [texture_atlas.width, texture_atlas.height],
+        format: "rgba8unorm",
+        usage: GPUTextureUsage.TEXTURE_BINDING | GPUTextureUsage.COPY_DST | GPUTextureUsage.RENDER_ATTACHMENT,
+    });
+    device.queue.copyExternalImageToTexture(
+        { source: texture_atlas, flipY: false },
+        { texture },
+        { width: texture_atlas.width, height: texture_atlas.height },
+    );
+
+    const sampler = device.createSampler({
+        addressModeU: "clamp-to-edge",
+        addressModeV: "clamp-to-edge",
+        magFilter: "nearest",
+    });
+
+    return device.createBindGroup({
+        layout: pipeline.getBindGroupLayout(1),
+        entries: [
+            { binding: 0, resource: sampler },
+            { binding: 1, resource: texture.createView() },
+        ],
+    });
+}
+
 function create_render_pipeline(device: GPUDevice): GPURenderPipeline {
     const shaderModule = device.createShaderModule({
         code: shader,
@@ -100,13 +138,18 @@ function create_render_pipeline(device: GPUDevice): GPURenderPipeline {
                     offset: 0,
                     format: "float32x4",
                 },
+                {
+                    shaderLocation: 1, // uv
+                    offset: 16,
+                    format: "float32x2",
+                },
             ],
-            arrayStride: 16,
+            arrayStride: 24,
             stepMode: "vertex",
         },
     ];
 
-    const uniformBuffersLayout = device.createBindGroupLayout({
+    const cameraBufferLayout = device.createBindGroupLayout({
         entries: [
             {
                 binding: 0,
@@ -116,8 +159,23 @@ function create_render_pipeline(device: GPUDevice): GPURenderPipeline {
         ],
     });
 
+    const texture_atlas_buffer_layout = device.createBindGroupLayout({
+        entries: [
+            {
+                binding: 0,
+                visibility: GPUShaderStage.FRAGMENT,
+                sampler: {},
+            },
+            {
+                binding: 1,
+                visibility: GPUShaderStage.FRAGMENT,
+                texture: {},
+            },
+        ],
+    });
+
     const pipelineLayout = device.createPipelineLayout({
-        bindGroupLayouts: [uniformBuffersLayout],
+        bindGroupLayouts: [cameraBufferLayout, texture_atlas_buffer_layout],
     });
 
     const pipelineDescriptor: GPURenderPipelineDescriptor = {
@@ -169,6 +227,8 @@ export function graphics_render(graphics: Graphics, camera: Camera): void {
     passEncoder.setPipeline(graphics.render_pipeline);
 
     passEncoder.setBindGroup(0, graphics.camera_bind_group);
+    passEncoder.setBindGroup(1, graphics.texture_atlas_bind_group);
+
     for (const gpu_mesh of graphics.gpu_meshes) {
         passEncoder.setVertexBuffer(0, gpu_mesh.vertexBuffer);
         passEncoder.draw(gpu_mesh.mesh.vertices.length);

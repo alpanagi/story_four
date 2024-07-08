@@ -15,7 +15,7 @@ export class Mesh {
 
 function mesh_vertex_data(mesh: Mesh): Float32Array {
     return new Float32Array([
-        ...mesh.vertices.map(x => vec4_add(x.position, mesh.position)),
+        ...mesh.vertices.map(x => [...vec4_add(x.position, mesh.position), ...x.uv]),
     ].flat());
 }
 
@@ -23,6 +23,7 @@ export function mesh_combine(meshes: Mesh[]): Mesh {
     return new Mesh(
         meshes.map(x => x.vertices.map(y => ({
             position: vec4_add(x.position, y.position),
+            uv: y.uv,
         }))).flat(),
         vec4_zero(),
     );

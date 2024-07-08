@@ -12,9 +12,9 @@ export interface Engine {
     meshes: Mesh[];
 }
 
-export async function create_engine(): Promise<Engine> {
+export async function create_engine(texture_atlas: ImageBitmap): Promise<Engine> {
     return {
-        graphics: await init_graphics(),
+        graphics: await init_graphics(texture_atlas),
         input: new Input(),
         camera: create_camera(),
         meshes: [],
@@ -29,7 +29,7 @@ const MOVEMENT_SPEED = 4;
 let previous_frame_time = Date.now();
 
 async function _frame(engine: Engine, camera: Camera): Promise<void> {
-    const delta = MOVEMENT_SPEED * (Date.now() - previous_frame_time) / 1000;
+    const delta = (Date.now() - previous_frame_time) / 1000;
     previous_frame_time = Date.now();
 
     let movement = vec4_zero();
