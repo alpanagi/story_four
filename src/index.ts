@@ -17,7 +17,7 @@ async function main(): Promise<void> {
             engine_add_mesh(engine, { ...tileMesh, position: [1.7 * i, 0, 1.7 * j, 0] });
         }
     }
-    engine_add_mesh(engine, { ...mesh_offset_uvs(characterMesh, [1.0, 0.0]), position: [0, 0, 0, 0] });
+    engine_add_mesh(engine, { ...mesh_offset_uvs(characterMesh, [2.0, 0.0]), position: [0, 0, 0, 0] });
 
     await engine_run(engine, engine.camera);
 }
