@@ -13,6 +13,7 @@ export interface Graphics {
     gpu_camera: GpuCamera;
     camera_bind_group: GPUBindGroup;
     texture_atlas_bind_group: GPUBindGroup;
+    depth_texture: GPUTexture;
 }
 
 export async function init_graphics(texture_atlas: ImageBitmap): Promise<Graphics> {
@@ -30,6 +31,7 @@ export async function init_graphics(texture_atlas: ImageBitmap): Promise<Graphic
         render_pipeline,
         texture_atlas,
     );
+    const depth_texture = create_depth_texture(device);
 
     return {
         device,
@@ -39,6 +41,7 @@ export async function init_graphics(texture_atlas: ImageBitmap): Promise<Graphic
         gpu_camera,
         camera_bind_group,
         texture_atlas_bind_group,
+        depth_texture,
     };
 }
 
@@ -125,6 +128,14 @@ function create_texture_atlas_bind_group(
     });
 }
 
+function create_depth_texture(device: GPUDevice): GPUTexture {
+    return device.createTexture({
+        size: [1920, 1080],
+        format: "depth24plus",
+        usage: GPUTextureUsage.RENDER_ATTACHMENT,
+    });
+}
+
 function create_render_pipeline(device: GPUDevice): GPURenderPipeline {
     const shaderModule = device.createShaderModule({
         code: shader,
@@ -196,6 +207,11 @@ function create_render_pipeline(device: GPUDevice): GPURenderPipeline {
         primitive: {
             topology: "triangle-list",
         },
+        depthStencil: {
+            depthWriteEnabled: true,
+            depthCompare: "less",
+            format: "depth24plus",
+        },
         layout: pipelineLayout,
     };
 
@@ -221,6 +237,12 @@ export function graphics_render(graphics: Graphics, camera: Camera): void {
                     .createView(),
             },
         ],
+        depthStencilAttachment: {
+            view: graphics.depth_texture.createView(),
+            depthClearValue: 1.0,
+            depthLoadOp: "clear",
+            depthStoreOp: "store",
+        },
     };
 
     const passEncoder = command_encoder.beginRenderPass(render_pass_descriptor);
