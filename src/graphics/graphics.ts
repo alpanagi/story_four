@@ -130,7 +130,7 @@ function create_texture_atlas_bind_group(
 
 function create_depth_texture(device: GPUDevice): GPUTexture {
     return device.createTexture({
-        size: [1920, 1080],
+        size: [1280, 720],
         format: "depth24plus",
         usage: GPUTextureUsage.RENDER_ATTACHMENT,
     });
@@ -201,6 +201,14 @@ function create_render_pipeline(device: GPUDevice): GPURenderPipeline {
             targets: [
                 {
                     format: navigator.gpu.getPreferredCanvasFormat(),
+                    blend: {
+                        color: {
+                            operation: "add",
+                            srcFactor: "one",
+                            dstFactor: "one-minus-src-alpha",
+                        },
+                        alpha: {},
+                    },
                 },
             ],
         },

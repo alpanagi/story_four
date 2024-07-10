@@ -9,6 +9,7 @@ async function main(): Promise<void> {
     const tileMesh = await load_obj("tile.obj");
     const characterMesh = await load_obj("character.obj");
     const wallMesh = mesh_offset_uvs(await load_obj("wall.obj"), [1, 0]);
+    const hoverMesh = mesh_offset_uvs(await load_obj("hover.obj"), [3, 0]);
     const texture_atlas = await load_image("atlas.png");
 
     const engine = await create_engine(texture_atlas);
@@ -25,6 +26,11 @@ async function main(): Promise<void> {
             position: [1.7 * (i + 1), 0, 1.7 * (i + 1), 0],
         });
     }
+    engine_add_mesh(engine, {
+        ...hoverMesh,
+        position: [1.7 * 4, 0, 1.7, 0],
+    });
+
     engine_add_mesh(engine, { ...mesh_offset_uvs(characterMesh, [2.0, 0.0]), position: [0, 0, 0, 0] });
 
     await engine_run(engine, engine.camera);
