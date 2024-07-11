@@ -1,26 +1,26 @@
 {
-    "author": "Alexandros Panagiotakis <dev@alpanagi.com>",
-    "description": "A basic game example",
-    "keywords": [],
-    "license": "UNLICENSED",
-    "main": "src/index.ts",
-    "name": "story_four",
-    "private": true,
-    "scripts": {
-        "build": "esbuild src/index.ts --bundle --minify --loader:.wgsl=text --outdir=dist",
-        "start": "esbuild src/index.ts --bundle --minify --loader:.wgsl=text --outdir=dist --sourcemap --serve --watch --servedir=dist"
-    },
-    "type": "module",
-    "version": "1.0.0",
-    "devDependencies": {
-        "@eslint/js": "^9.6.0",
-        "@stylistic/eslint-plugin": "^2.3.0",
-        "@stylistic/eslint-plugin-ts": "^2.3.0",
-        "@tsconfig/strictest": "^2.0.5",
-        "@webgpu/types": "^0.1.43",
-        "esbuild": "^0.23.0",
-        "eslint": "^8.57.0",
-        "typescript": "^5.5.3",
-        "typescript-eslint": "^7.15.0"
-    }
+  "author": "Alexandros Panagiotakis <dev@alpanagi.com>",
+  "description": "A basic game example",
+  "keywords": [],
+  "license": "UNLICENSED",
+  "main": "src/index.ts",
+  "name": "story_four",
+  "private": true,
+  "scripts": {
+    "build": "esbuild src/index.ts --bundle --minify --loader:.wgsl=text --outdir=dist",
+    "start": "esbuild src/index.ts --bundle --minify --loader:.wgsl=text --outdir=dist --sourcemap --serve --watch --servedir=dist"
+  },
+  "type": "module",
+  "version": "1.0.0",
+  "devDependencies": {
+    "@eslint/js": "^9.6.0",
+    "@stylistic/eslint-plugin": "^2.3.0",
+    "@stylistic/eslint-plugin-ts": "^2.3.0",
+    "@tsconfig/strictest": "^2.0.5",
+    "@webgpu/types": "^0.1.43",
+    "esbuild": "^0.23.0",
+    "eslint": "^8.57.0",
+    "typescript": "^5.5.3",
+    "typescript-eslint": "^7.15.0"
+  }
 }

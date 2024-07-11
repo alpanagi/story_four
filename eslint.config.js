@@ -14,7 +14,9 @@ export default tseslint.config(
     {
         rules: {
             "@stylistic/arrow-parens": ["error", "as-needed", { requireForBlockBody: false }],
+            "@stylistic/brace-style": ["error", "1tbs"],
             "@typescript-eslint/no-non-null-assertion": "off",
+            "@typescript-eslint/switch-exhaustiveness-check": "error",
         },
     },
     {
