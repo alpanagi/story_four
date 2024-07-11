@@ -1,7 +1,7 @@
 import { Graphics } from "../entities/Graphics";
 import { Mesh } from "../../mesh/entities/Mesh";
-import { create_gpu_mesh } from "./create_gpu_mesh";
+import { gpu_mesh_create } from "./gpu_mesh_create";
 
 export function graphics_add_mesh(graphics: Graphics, mesh: Mesh): void {
-    graphics.gpu_meshes.push(create_gpu_mesh(graphics.device, mesh));
+    graphics.gpu_meshes.push(gpu_mesh_create(graphics.device, mesh));
 }

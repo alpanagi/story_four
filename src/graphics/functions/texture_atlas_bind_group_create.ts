@@ -1,4 +1,4 @@
-export function create_texture_atlas_bind_group(
+export function texture_atlas_bind_group_create(
     device: GPUDevice,
     pipeline: GPURenderPipeline,
     texture_atlas: ImageBitmap,

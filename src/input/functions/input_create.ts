@@ -1,6 +1,6 @@
 import { Input } from "../entities/Input";
 
-export function create_input(): Input {
+export function input_create(): Input {
     const input: Input = {
         keys: {},
         mouse: null,

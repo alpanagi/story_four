@@ -1,6 +1,6 @@
 import { GpuCamera } from "../entities/GpuCamera";
 
-export function create_camera_bind_group(
+export function camera_bind_group_create(
     device: GPUDevice,
     pipeline: GPURenderPipeline,
     gpuCamera: GpuCamera,

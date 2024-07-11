@@ -1,4 +1,4 @@
-export function create_depth_texture(device: GPUDevice): GPUTexture {
+export function depth_texture_create(device: GPUDevice): GPUTexture {
     return device.createTexture({
         size: [1280, 720],
         format: "depth24plus",

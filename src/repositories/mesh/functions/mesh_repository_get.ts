@@ -3,7 +3,7 @@ import { MeshKind } from "../../../mesh/entities/MeshKind";
 import { Vec2 } from "../../../algebra/entities/Vec2";
 import { Vec4 } from "../../../algebra/entities/Vec4";
 import { Vertex } from "../../../mesh/entities/Vertex";
-import { create_mesh } from "../../../mesh/functions/create_mesh";
+import { mesh_create } from "../../../mesh/functions/mesh_create";
 
 export async function mesh_repository_get(mesh_kind: MeshKind): Promise<Mesh> {
     switch (mesh_kind) {
@@ -65,5 +65,5 @@ export async function load_obj(filename: string): Promise<Mesh> {
         }));
     });
 
-    return create_mesh(vertices);
+    return mesh_create(vertices);
 }

@@ -1,7 +1,7 @@
 // @ts-expect-error: esbuild will import this as text
 import shader from "../shader.wgsl";
 
-export function create_render_pipeline(device: GPUDevice): GPURenderPipeline {
+export function render_pipeline_create(device: GPUDevice): GPURenderPipeline {
     const shaderModule = device.createShaderModule({
         code: shader,
     });

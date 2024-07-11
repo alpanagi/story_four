@@ -2,7 +2,7 @@ import { Camera } from "../../camera/entities/Camera";
 import { GpuCamera } from "../entities/GpuCamera";
 import { camera_data_size } from "../../camera/functions/camera_data_size";
 
-export function create_gpu_camera(
+export function gpu_camera_create(
     device: GPUDevice,
     camera: Camera,
 ): GpuCamera {

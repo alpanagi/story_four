@@ -1,14 +1,14 @@
 import { MeshKind } from "../../mesh/entities/MeshKind";
-import { create_engine } from "../../engine/functions/create_engine";
-import { create_mesh_repository } from "../../repositories/mesh/functions/create_mesh_repository";
-import { create_texture_repository } from "../../repositories/texture/functions/create_texture_repository";
+import { engine_create } from "../../engine/functions/engine_create";
+import { mesh_repository_create } from "../../repositories/mesh/functions/mesh_repository_create";
+import { texture_repository_create } from "../../repositories/texture/functions/texture_repository_create";
 import { engine_add_mesh } from "../../engine/functions/engine_add_mesh";
 import { engine_run } from "../../engine/functions/engine_run";
 import { mesh_offset_uvs } from "../../mesh/functions/mesh_offset_uvs";
 
 export async function main(): Promise<void> {
-    const mesh_repository = create_mesh_repository();
-    const texture_repository = create_texture_repository();
+    const mesh_repository = mesh_repository_create();
+    const texture_repository = texture_repository_create();
 
     const tileMesh = await mesh_repository.get(MeshKind.Tile);
     const characterMesh = await mesh_repository.get(MeshKind.Character);
@@ -16,7 +16,7 @@ export async function main(): Promise<void> {
     const hoverMesh = mesh_offset_uvs(await mesh_repository.get(MeshKind.Hover), [3, 0]);
     const texture_atlas = await texture_repository.get("atlas.png");
 
-    const engine = await create_engine(texture_atlas);
+    const engine = await engine_create(texture_atlas);
 
     for (const j of [...Array(100).keys()]) {
         for (const i of [...Array(100).keys()]) {

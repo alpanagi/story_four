@@ -1,7 +1,7 @@
 import { GpuMesh } from "../entities/GpuMesh";
 import { Mesh } from "../../mesh/entities/Mesh";
 
-export function create_gpu_mesh(
+export function gpu_mesh_create(
     device: GPUDevice,
     mesh: Mesh,
 ): GpuMesh {
