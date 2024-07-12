@@ -30,6 +30,7 @@ export function graphics_render(graphics: Graphics, camera: Camera): void {
 
     passEncoder.setBindGroup(0, graphics.camera_bind_group);
     passEncoder.setBindGroup(1, graphics.texture_atlas_bind_group);
+    passEncoder.setBindGroup(2, graphics.transform_bind_group);
 
     for (const gpu_mesh of graphics.gpu_meshes) {
         passEncoder.setVertexBuffer(0, gpu_mesh.vertexBuffer);

@@ -19,6 +19,8 @@ struct VertexOutput {
 @group(1) @binding(0) var texture_atlas_sampler: sampler;
 @group(1) @binding(1) var texture_atlas: texture_2d<f32>;
 
+@group(2) @binding(0) var<uniform> transform: mat4x4<f32>;
+
 @vertex
 fn vertex_main(input: VertexInput) -> VertexOutput {
   var projection: mat4x4<f32>;

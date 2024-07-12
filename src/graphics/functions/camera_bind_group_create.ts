@@ -8,7 +8,7 @@ export function camera_bind_group_create(
     return device.createBindGroup({
         layout: pipeline.getBindGroupLayout(0),
         entries: [
-            { binding: 0, resource: { buffer: gpuCamera.uniformBuffer } },
+            { binding: 0, resource: { buffer: gpuCamera.uniform_buffer } },
         ],
     });
 }

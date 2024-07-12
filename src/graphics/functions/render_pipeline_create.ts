@@ -50,8 +50,18 @@ export function render_pipeline_create(device: GPUDevice): GPURenderPipeline {
         ],
     });
 
+    const transform_buffer_layout = device.createBindGroupLayout({
+        entries: [
+            {
+                binding: 0,
+                visibility: GPUShaderStage.VERTEX,
+                buffer: {},
+            },
+        ],
+    });
+
     const pipelineLayout = device.createPipelineLayout({
-        bindGroupLayouts: [cameraBufferLayout, texture_atlas_buffer_layout],
+        bindGroupLayouts: [cameraBufferLayout, texture_atlas_buffer_layout, transform_buffer_layout],
     });
 
     const pipelineDescriptor: GPURenderPipelineDescriptor = {

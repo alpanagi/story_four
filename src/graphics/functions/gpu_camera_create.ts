@@ -6,15 +6,14 @@ export function gpu_camera_create(
     device: GPUDevice,
     camera: Camera,
 ): GpuCamera {
-    const data = new Float32Array(camera_data_size());
-    const uniformBuffer = device.createBuffer({
+    const uniform_buffer = device.createBuffer({
+        label: "camera_buffer",
         size: camera_data_size(),
         usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST,
     });
-    device.queue.writeBuffer(uniformBuffer, 0, data);
 
     return {
         camera,
-        uniformBuffer,
+        uniform_buffer: uniform_buffer,
     };
 }

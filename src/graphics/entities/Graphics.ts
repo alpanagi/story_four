@@ -9,5 +9,6 @@ export interface Graphics {
     gpu_camera: GpuCamera;
     camera_bind_group: GPUBindGroup;
     texture_atlas_bind_group: GPUBindGroup;
+    transform_bind_group: GPUBindGroup;
     depth_texture: GPUTexture;
 }

@@ -1,6 +1,5 @@
 import { Camera } from "../../camera/entities/Camera";
 import { Engine } from "../entities/Engine";
-import { camera_viewport_to_world } from "../../camera/functions/camera_viewport_to_world";
 import { fps } from "../../debug/functions/fps";
 import { graphics_add_mesh } from "../../graphics/functions/graphics_add_mesh";
 import { graphics_render } from "../../graphics/functions/graphics_render";
@@ -24,7 +23,7 @@ export async function engine_run(engine: Engine, camera: Camera): Promise<void> 
 
 async function _frame(engine: Engine, camera: Camera): Promise<void> {
     if (engine.input.mouse !== null) {
-        console.log(camera_viewport_to_world(camera, engine.input.mouse.x, engine.input.mouse.y));
+        // console.log(camera_viewport_to_world(camera, engine.input.mouse.x, engine.input.mouse.y));
     }
     const delta = (Date.now() - previous_frame_time) / 1000;
     previous_frame_time = Date.now();

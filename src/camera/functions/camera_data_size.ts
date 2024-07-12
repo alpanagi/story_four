@@ -1,5 +1,5 @@
-import { vertex_data_size } from "../../mesh/functions/vertex_data_size";
+import { vec4_data_size } from "../../algebra/functions/vec4/vec4_data_size";
 
 export function camera_data_size(): number {
-    return vertex_data_size() * 2;
+    return vec4_data_size() * 2;
 }
