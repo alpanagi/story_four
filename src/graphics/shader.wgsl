@@ -19,7 +19,7 @@ struct VertexOutput {
 @group(1) @binding(0) var texture_atlas_sampler: sampler;
 @group(1) @binding(1) var texture_atlas: texture_2d<f32>;
 
-@group(2) @binding(0) var<uniform> transform: mat4x4<f32>;
+@group(2) @binding(0) var<uniform> transform_matrix: mat4x4<f32>;
 
 @vertex
 fn vertex_main(input: VertexInput) -> VertexOutput {
@@ -55,7 +55,7 @@ fn vertex_main(input: VertexInput) -> VertexOutput {
   translation_matrix[3][2] = -camera[0][2];
 
   var output : VertexOutput;
-  output.position = vec4(0, 0., 0.5, 0.) + projection * x_rotation_matrix * y_rotation_matrix * translation_matrix * input.position;
+  output.position = vec4(0, 0., 0.5, 0.) + projection * x_rotation_matrix * y_rotation_matrix * translation_matrix * (transform_matrix * input.position);
   output.uv = input.uv;
   return output;
 }

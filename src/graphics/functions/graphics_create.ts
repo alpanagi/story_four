@@ -5,6 +5,7 @@ import { canvas_context_get } from "./canvas_context_get";
 import { depth_texture_create } from "./depth_texture_create";
 import { device_get } from "./device_get";
 import { gpu_camera_create } from "./gpu_camera_create";
+import { mat4_data_size } from "../../algebra/functions/mat4/mat4_data_size";
 import { render_pipeline_create } from "./render_pipeline_create";
 import { texture_atlas_bind_group_create } from "./texture_atlas_bind_group_create";
 import { transform_bind_group_create } from "./transform_bind_group_create";
@@ -24,10 +25,18 @@ export async function graphics_create(texture_atlas: ImageBitmap): Promise<Graph
         render_pipeline,
         texture_atlas,
     );
+
+    const transform_buffer = device.createBuffer({
+        label: "transform_buffer",
+        size: mat4_data_size(),
+        usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST,
+    });
     const transform_bind_group = transform_bind_group_create(
         device,
         render_pipeline,
+        transform_buffer,
     );
+
     const depth_texture = depth_texture_create(device);
 
     return {
@@ -38,6 +47,7 @@ export async function graphics_create(texture_atlas: ImageBitmap): Promise<Graph
         gpu_camera,
         camera_bind_group,
         texture_atlas_bind_group,
+        transform_buffer,
         transform_bind_group,
         depth_texture,
     };
