@@ -5,4 +5,5 @@ export interface Mesh {
     vertices: Vertex[];
     position: Vec4;
     data: Float32Array;
+    is_transparent: boolean;
 }

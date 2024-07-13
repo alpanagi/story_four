@@ -6,7 +6,7 @@ export function transform_bind_group_create(
     return device.createBindGroup({
         layout: pipeline.getBindGroupLayout(2),
         entries: [
-            { binding: 0, resource: { buffer: transform_buffer } },
+            { binding: 0, resource: { buffer: transform_buffer, size: 64 } },
         ],
     });
 }

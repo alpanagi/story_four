@@ -65,5 +65,5 @@ export async function load_obj(filename: string): Promise<Mesh> {
         }));
     });
 
-    return mesh_create(vertices);
+    return mesh_create({ vertices });
 }

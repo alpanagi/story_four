@@ -55,7 +55,7 @@ export function render_pipeline_create(device: GPUDevice): GPURenderPipeline {
             {
                 binding: 0,
                 visibility: GPUShaderStage.VERTEX,
-                buffer: {},
+                buffer: { hasDynamicOffset: true },
             },
         ],
     });

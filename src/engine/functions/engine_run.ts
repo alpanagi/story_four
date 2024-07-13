@@ -4,7 +4,6 @@ import { fps } from "../../debug/functions/fps";
 import { graphics_add_mesh } from "../../graphics/functions/graphics_add_mesh";
 import { graphics_render } from "../../graphics/functions/graphics_render";
 import { input_is_pressed } from "../../input/functions/input_is_pressed";
-import { mesh_combine } from "../../mesh/functions/mesh_combine";
 import { vec4_add } from "../../algebra/functions/vec4/vec4_add";
 import { vec4_magnitude } from "../../algebra/functions/vec4/vec4_magnitude";
 import { vec4_mul_number } from "../../algebra/functions/vec4/vec4_mul_number";
@@ -17,7 +16,7 @@ let previous_frame_time = Date.now();
 const frame = fps(_frame);
 
 export async function engine_run(engine: Engine, camera: Camera): Promise<void> {
-    graphics_add_mesh(engine.graphics, mesh_combine(engine.meshes));
+    engine.meshes.forEach(graphics_add_mesh(engine.graphics));
     await frame(engine, camera);
 }
 

@@ -5,7 +5,6 @@ import { canvas_context_get } from "./canvas_context_get";
 import { depth_texture_create } from "./depth_texture_create";
 import { device_get } from "./device_get";
 import { gpu_camera_create } from "./gpu_camera_create";
-import { mat4_data_size } from "../../algebra/functions/mat4/mat4_data_size";
 import { render_pipeline_create } from "./render_pipeline_create";
 import { texture_atlas_bind_group_create } from "./texture_atlas_bind_group_create";
 import { transform_bind_group_create } from "./transform_bind_group_create";
@@ -28,7 +27,7 @@ export async function graphics_create(texture_atlas: ImageBitmap): Promise<Graph
 
     const transform_buffer = device.createBuffer({
         label: "transform_buffer",
-        size: mat4_data_size(),
+        size: 256 * 4 * 2, // 256 is the alignment size
         usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST,
     });
     const transform_bind_group = transform_bind_group_create(

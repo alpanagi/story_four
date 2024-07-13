@@ -6,8 +6,8 @@ import { vec2_add } from "../../algebra/functions/vec2/vec2_add";
 export function mesh_offset_uvs(mesh: Mesh, offset: Vec2): Mesh {
     const vertices = mesh.vertices.map(x => ({ ...x, uv: vec2_add(x.uv, offset) }));
 
-    return mesh_create(
+    return mesh_create({
         vertices,
-        mesh.position,
-    );
+        position: mesh.position,
+    });
 }
